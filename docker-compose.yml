@@ -1,0 +1,47 @@
+version: "3.2"
+services:
+  php:
+    build: 
+      context: .
+    image: bharath/bharath-php-mysql:1.0.0
+    networks:
+      - frontend
+      - backend
+    environment:
+      - databaseHost=bharath-mysql1-app
+      - databaseUsername=bharath
+      - databasePassword=bharathpass
+      - databaseName=tutorial
+    volumes:
+      - ./www/:/var/www/html/
+    ports:
+      - "8080:80"
+    container_name: bharath-php1-app
+  mysql:
+    image: mysql:5.7
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_USER=bharath
+      - MYSQL_PASSWORD=bharathpass 
+      - MYSQL_DATABASE=tutorial
+    container_name: bharath-mysql1-app
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    depends_on:
+      - mysql
+    networks:
+      - backend
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=bharath-mysql1-app
+      - PMA_PORT= 3306
+    volumes:
+      - /sessions
+    container_name: bharath-phpmyadmin1-app
+networks:
+  frontend:
+  backend:
+

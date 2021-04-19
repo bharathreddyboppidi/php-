@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+spec:
+  selector:
+    app: webapp-phpmyadmin
+    tier: backend
+  ports:
+  - protocol: "TCP"
+    port: 8081
+    targetPort: 80
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment  
+spec:
+  selector:
+    matchLabels:
+      app: webapp-phpmyadmin
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: webapp-phpmyadmin
+        tier: backend
+    spec:
+      containers:
+      -image: phpmyadmin/phpmyadmin:4.7
+       name: phpmyadmin
+       env:
+       - name: MYSQL_ROOT_PASSWORD
+         value: rootpassword
+       - name: PMA_HOST
+         value: bharath-mysql1-app
+       - name: PMA_PORT
+         value: 3306
+       ports:
+       - containerPort: 80
+       
+        
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
